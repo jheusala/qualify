@@ -2,7 +2,7 @@
   "name": "qualify",
   "version": "0.0.1",
   "description": "JavaScript library to help building functions and methods which qualify for specific conditions",
-  "main": "src/index.js",
+  "main": "src/qualify.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
