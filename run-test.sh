@@ -1,2 +1,2 @@
 #!/bin/sh -x
-node test/run.js
+node tests/run.js
