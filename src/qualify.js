@@ -66,9 +66,9 @@ function do_conform(args, opts) {
 	}
 	var arg, fn, validate, opts_max_length, defaults_direction;
 	try {
-		console.log('DEBUG: (before) args = ' + debug_stringify(args) );
+		//console.log('DEBUG: (before) args = ' + debug_stringify(args) );
 		args = Array.prototype.slice.call(args);
-		console.log('DEBUG: (after) args = ' + debug_stringify(args) );
+		//console.log('DEBUG: (after) args = ' + debug_stringify(args) );
 
 		opts = opts || {};
 		validate = opts.validate || [];
@@ -134,6 +134,7 @@ function do_conform(args, opts) {
 				
 				function do_loop(){
 					var result, msgs = [];
+/*
 					console.log('DEBUG: opts.min = ' + opts.min);
 					console.log('DEBUG: opts.max = ' + opts.max);
 					console.log('DEBUG: args = ' + debug_stringify(args) );
@@ -143,11 +144,12 @@ function do_conform(args, opts) {
 					console.log('DEBUG: i = ' + i);
 					console.log('DEBUG: args[' + i + '] = ' + args[i]);
 					console.log('DEBUG: validate[' + i + '] = ' + validate[i]);
+*/
 					if(!( validate[i] && (typeof validate[i] === 'object') )) {
 						return;
 					}
 					result = JSONSchema.validate(args[i], validate[i]);
-					console.log('DEBUG: result = ' + debug_stringify(result));
+					//console.log('DEBUG: result = ' + debug_stringify(result));
 					if(!result.valid) {
 						foreach(result.errors).each(function(p) {
 							msgs.push( ((p.property !== undefined) ? 'property="' + p.property : '') + '", ' + p.message );
@@ -163,7 +165,7 @@ function do_conform(args, opts) {
 			}());
 		}
 		
-		console.log('DEBUG: returning ' + debug_stringify(args));
+		//console.log('DEBUG: returning ' + debug_stringify(args));
 		return args;
 	} catch(e) {
 		if(fn && (typeof fn === 'function')) {

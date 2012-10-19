@@ -53,7 +53,6 @@ module.exports = testCase({
 		} catch(e) {
 			test.ok(e instanceof TypeError, "Exception was not TypeError!");
 			test.strictEqual(e.message, "No callback function");
-			test.done();
 		} finally {
 			test.done();
 		}
@@ -63,15 +62,33 @@ module.exports = testCase({
 		var my = this;
 		test.expect(2);
 		try {
-			my.foo("hello", "world", function(err) {
-				test.ok(!err, "Error: " + err);
-			});
+			my.foo("hello");
 		} catch(e) {
 			test.ok(e instanceof TypeError, "Exception was not TypeError!");
 			test.strictEqual(e.message, "No callback function");
 		} finally {
 			test.done();
 		}
+	},
+	/* Test for calling a function without callback */
+	foo_5: function(test){
+		var my = this;
+		test.expect(2);
+		my.foo("hello", "world", function(err) {
+			test.ok(err, "There was no error!");
+			test.strictEqual(err.substr(0, 30), "TypeError: Too many arguments!");
+			test.done();
+		});
+	},
+	/* Test for calling a function without callback */
+	foo_6: function(test){
+		var my = this;
+		test.expect(2);
+		my.bar(function(err) {
+			test.ok(err, "There was no error!");
+			test.strictEqual(err.substr(0, 32), "TypeError: Not enough arguments!");
+			test.done();
+	    });
 	},
 	/* Test for calling a function with right values */
 	last: function(test){
