@@ -1,7 +1,7 @@
 {
   "name": "qualify",
-  "version": "0.0.1",
-  "description": "JavaScript library to help building functions and methods which qualify for specific conditions",
+  "version": "0.0.2",
+  "description": "JavaScript library to help building functions with checks for specific conditions",
   "main": "src/qualify.js",
   "scripts": {
     "test": "./run-test.sh",
