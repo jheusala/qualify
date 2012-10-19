@@ -1,0 +1,29 @@
+{
+  "name": "qualify",
+  "version": "0.0.1",
+  "description": "JavaScript library to help building functions and methods which qualify for specific conditions",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jheusala/qualify.git"
+  },
+  "keywords": [
+    "javascript",
+    "function"
+  ],
+  "dependencies": {
+	"snippets": "*",
+	"json-schema": "*"
+  },
+  "devDependencies": {
+    "lint": "*"
+  },
+  "scripts": {
+    "lint": "./run-lint.sh"
+  },
+  "author": "Jaakko-Heikki Heusala <jheusala@iki.fi>",
+  "license": "MIT"
+}
