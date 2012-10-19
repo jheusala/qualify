@@ -9,8 +9,7 @@
 
 var mod = module.exports = {},
 	foreach = require('snippets').foreach,
-	JSONSchema = require('json-schema'),
-	FunResult = require('./FunResult.js');
+	JSONSchema = require('json-schema');
 
 /** */
 function debug_stringify (what) {
