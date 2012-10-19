@@ -81,7 +81,7 @@ module.exports = testCase({
 		});
 	},
 	/* Test for calling a function without callback */
-	foo_6: function(test){
+	bar_1: function(test){
 		var my = this;
 		test.expect(2);
 		my.bar(function(err) {
