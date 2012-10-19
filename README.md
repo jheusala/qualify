@@ -23,7 +23,11 @@ Usage with Node.js:
 
 Declare your functions like:
 
-	var foo = conform({defaults:'right',max:2, validate:[{type:'string'}]}, function(path, fn) {
+	var foo = conform({
+		defaults: 'right',
+		max: 2, 
+		validate: [{type:'string'}]
+	}, function(path, fn) {
 		fn("Path was " + path);
 	});
 
