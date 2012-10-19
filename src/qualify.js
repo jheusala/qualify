@@ -182,7 +182,8 @@ mod.conform = function(opts, fn) {
 		throw new TypeError("Second argument for conform must be an function.");
 	}
 	var retfn = function() {
-		var max_length = opts.max || arguments.length,
+		var obj = this,
+		    max_length = opts.max || arguments.length,
 		    args = do_conform(arguments, opts);
 		if(!args) {
 			return;
@@ -191,7 +192,7 @@ mod.conform = function(opts, fn) {
 		//while(args.length < max_length) {
 		//	args.unshift(undefined);
 		//}
-		fn.apply(undefined, args);
+		fn.apply(obj, args);
 	};
 	return retfn;
 };
