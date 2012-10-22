@@ -11,6 +11,34 @@ var mod = module.exports = {},
 	foreach = require('snippets').foreach,
 	JSONSchema = require('json-schema');
 
+/** Returns true if the argument is a function */
+mod.isFunction = function(f) {
+	return f && (typeof f === 'function');
+};
+
+/** Returns true if the argument is an object */
+mod.isObject = function(f) {
+	return f && (typeof f === 'object');
+};
+
+/** Validate `f` based on `schema`. */
+mod.validate = function(f, schema) {
+	if(schema === undefined) {
+		return {valid:true, errors:[]};
+	}
+	if(!mod.isObject(schema)) {
+		return {valid:false, errors:[{'message':'Schema was invalid'}]};
+	}
+	if(schema.type === 'function') {
+		if( (!schema.required) && (!f) ) return;
+		if(!mod.isFunction(f)) {
+			return {valid:false, errors:[{'message':'Object was not a function.'}]};
+		}
+		return {valid:true, errors:[]};
+	}
+	return JSONSchema.validate(f, schema);
+};
+
 /** */
 function debug_stringify (what) {
 	var cases = {
@@ -73,25 +101,34 @@ function do_conform(args, opts) {
 		opts_max_length = opts.max || args.length;
 		defaults_direction = opts.defaults || 'left';
 		
-		if(!opts.min) { 
+		opts.type = opts.type || 'basic';
+		
+		if(opts.length) {
+			opts.min = opts.length;
+			opts.max = opts.length;
+		}
+
+		if(!opts.min) {
 			opts.min = 0;
 		}
 		
 		// First priority to search for the callback function
-		(function(){
-			if(args.length < 1) {
-				return;
-			}
-			var i = args.length - 1;
-			for(; i >= 0; i -= 1) {
-				if(!( args[i] && (typeof args[i] === "function") )) {
-					//throw new TypeError("Last argument is not valid function!");
+		if(opts.type === 'async') {
+			(function(){
+				if(args.length < 1) {
 					return;
 				}
-				fn = args[i];
-				return;
-			}
-		}());
+				var i = args.length - 1;
+				for(; i >= 0; i -= 1) {
+					if(!mod.isFunction(args[i])) {
+						//throw new TypeError("Last argument is not valid function!");
+						return;
+					}
+					fn = args[i];
+					return;
+				}
+			}());
+		}
 		
 		// Pad args from left (with undefined) if the direction to set defaults is from right
 		if( opts.max && (defaults_direction === 'right') ) {
@@ -101,19 +138,17 @@ function do_conform(args, opts) {
 		}
 		
 		// Create default error handler if fn is undefined
-		if(!( fn && (typeof fn === 'function') )) {
+		if( (opts.type === 'async') && (!mod.isFunction(fn)) ) {
 			throw new TypeError("No callback function");
-			/*
-			fn = function(err) {
-				console.log('Error: ' + err);
-			};*/
 		}
 		
 		// Check states
 
+		/*
 		if(args.length < 1) {
 			throw new TypeError("No callback function found!");
 		}
+		*/
 		
 		if(opts.min && (args.length < opts.min) ) {
 			throw new TypeError("Not enough arguments!");
@@ -132,10 +167,7 @@ function do_conform(args, opts) {
 				
 				function do_loop(){
 					var result, msgs = [];
-					if(!( validate[i] && (typeof validate[i] === 'object') )) {
-						return;
-					}
-					result = JSONSchema.validate(args[i], validate[i]);
+					result = mod.validate(args[i], validate[i]);
 					if(!result.valid) {
 						foreach(result.errors).each(function(p) {
 							msgs.push( ((p.property !== undefined) ? 'property="' + p.property : '') + '", ' + p.message );
@@ -153,7 +185,7 @@ function do_conform(args, opts) {
 		
 		return args;
 	} catch(e) {
-		if(fn && (typeof fn === 'function')) {
+		if(mod.isFunction(fn)) {
 			fn(prettify(e));
 		} else {
 			throw e;
@@ -163,13 +195,14 @@ function do_conform(args, opts) {
 
 /* Conformed function builder */
 mod.conform = function(opts, fn) {
-	if(!( fn && (typeof fn === "function") )) {
+	if(!mod.isFunction(fn)) {
 		throw new TypeError("Second argument for conform must be an function.");
 	}
 	var retfn = function() {
 		var obj = this,
 		    max_length = opts.max || arguments.length,
-		    args = do_conform(arguments, opts);
+		    args = do_conform(arguments, opts),
+		    ret;
 		if(!args) {
 			return;
 		}
@@ -177,7 +210,23 @@ mod.conform = function(opts, fn) {
 		//while(args.length < max_length) {
 		//	args.unshift(undefined);
 		//}
-		fn.apply(obj, args);
+		ret = fn.apply(obj, args);
+		
+		// FIXME: Check return value based on opts.returns
+		if(opts.returns) {
+			(function() {
+				var result, msgs = [];
+				result = mod.validate(ret, opts.returns);
+				if(!result.valid) {
+					foreach(result.errors).each(function(p) {
+						msgs.push( ((p.property !== undefined) ? 'property="' + p.property : '') + '", ' + p.message );
+					});
+					throw new TypeError("Returned value was invalid: " + msgs.join('; ') + " (schema was " + debug_stringify(opts.returns) + ")");
+				}
+			}());
+		}
+		
+		return ret;
 	};
 	return retfn;
 };

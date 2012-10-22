@@ -9,12 +9,27 @@ module.exports = testCase({
 		var my = this;
 		
 		/* Test function */
-		my.foo = conform({defaults:'right',max:2, validate:[{type:'string'}]}, function(path, fn) {
+		my.foo = conform({
+			type: 'async',
+			defaults:'right',
+			max:2,
+			validate:[
+				{type:'string'},
+				{type:'function', "required":true}
+			]
+		}, function(path, fn) {
 			fn(undefined, "Path was " + path);
 		});
 
 		/* Test function */
-		my.bar = conform({min:2, max:2, validate:[{type:'string', "required":true}]}, function(path, fn) {
+		my.bar = conform({
+			type: 'async',
+			length:2,
+			validate:[
+				{type:'string', "required":true},
+				{type:'function', "required":true}
+			]
+		}, function(path, fn) {
 		    fn(undefined, "Path was " + path);
 		});
 

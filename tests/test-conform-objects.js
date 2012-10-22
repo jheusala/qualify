@@ -13,12 +13,21 @@ module.exports = testCase({
 		}
 		
 		/* Test method1 */
-		TestObj.prototype.get = conform({min:1,max:1}, function(fn) {
+		TestObj.prototype.get = conform({
+			type:'async',
+			min:1,
+			max:1
+		}, function(fn) {
 			fn(undefined, this._msg);
 		});
 
 		/* Test method2 */
-		TestObj.prototype.set = conform({min:2, max:2, validate:[{type:'string', "required":true}]}, function(msg, fn) {
+		TestObj.prototype.set = conform({
+			type:'async',
+			min:2,
+			max:2,
+			validate:[{type:'string', "required":true}, {type:'function', "required":true}]
+		}, function(msg, fn) {
 			this._msg = ''+msg;
 			fn(undefined, this._msg);
 		});

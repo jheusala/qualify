@@ -12,4 +12,4 @@ catch(e) {
 }
 
 process.chdir(__dirname);
-reporter.run(['test-conform.js', 'test-conform-objects.js']); // TODO: Automate selection of all test-*.js ?
+reporter.run(['test-conform.js', 'test-conform-returns.js', 'test-conform-objects.js', 'test-conform-numbers.js']); // FIXME: Automate selection of all test-*.js ?
