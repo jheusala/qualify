@@ -9,21 +9,23 @@ License
 
 License is MIT.
 
-Installation
-------------
+Usage with Node.js
+------------------
+
+Install using NPM:
 
 	npm install qualify
 
-Examples
---------
+Use it in the application:
 
-Usage with Node.js:
+	var qualify = require('qualify');
 
-	var conform = require('qualify').conform;
+Example
+-------
 
-Declare your functions like:
+Create your functions like:
 
-	var foo = conform({
+	var foo = qualify.create({
 		type: 'async',
 		defaults: 'right',
 		max: 2, 
@@ -32,7 +34,9 @@ Declare your functions like:
 		fn("Path was " + path);
 	});
 
-Options for `conform` are:
+
+Options for `conform`
+---------------------
 
 ### `type`
 

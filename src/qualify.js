@@ -233,4 +233,6 @@ mod.conform = function(opts, fn) {
 	return retfn;
 };
 
+mod.create = mod.conform;
+
 /* EOF */
