@@ -30,7 +30,9 @@ mod.validate = function(f, schema) {
 		return {valid:false, errors:[{'message':'Schema was invalid'}]};
 	}
 	if(schema.type === 'function') {
-		if( (!schema.required) && (!f) ) return;
+		if( (!schema.required) && (!f) ) {
+			return;
+		}
 		if(!mod.isFunction(f)) {
 			return {valid:false, errors:[{'message':'Object was not a function.'}]};
 		}
