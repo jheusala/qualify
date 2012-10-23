@@ -36,17 +36,17 @@ Options for `conform` are:
 
 ### `type`
 
-The type of the function's error handling. 
+The type of the function's error handling. This is required if you use differend styles of error handling and want to use those styles to catch conform's errors too.
 
 Possible values are: 
 
-* `"basic"` is the default option. This is a standard function. Errors are handled by throwing exceptions.
-* `"async"` is a basic async function. Last argument must be a function which can be called with a first argument as an optional error message.
-* `"promise"` the function will return a Promise object (CommonJS/PromiseA). [Not implemented yet.]
+* `"basic"` is the default option. This is a standard function. Conform's errors are handled by throwing exceptions.
+* `"async"` is a basic async function. Last argument must be a function which can be called with an argument as an optional error message.
+* `"promise"` the function will return an async Promise object (CommonJS/PromiseA). [Not implemented yet.]
 
 ### `defaults`
 
-If set as `"right"` then all optional arguments are fulfilled from right to left
+The direction of fulfilling missing arguments. If set as `"right"` then all optional arguments are fulfilled from right to left. This is optional argument. Default is `"left"`.
 
 ### `max` and `min` or `length`
 
@@ -54,11 +54,11 @@ How many arguments the function must have. `length` will override `max` and `min
 
 ### `validate`
 
-An array of schemas that will be used to specify how arguments are validated. Optional arguments should be set as `undefined`.
+An array for each schema that will be used to specify how arguments are validated. Optional arguments should be set as `undefined`.
 
 ### `returns`
 
-validate the return value of the function in a schema format
+Validate the return value of the function in our schema format.
 
 Notes about our schema validation
 ---------------------------------
