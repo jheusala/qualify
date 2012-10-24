@@ -27,7 +27,7 @@ Method `qualify.create`
 
 ### Example
 
-Create your functions like:
+You can create functions like this:
 
 	var foo = qualify.create({
 		type: 'async',
@@ -37,6 +37,20 @@ Create your functions like:
 	}, function(path, fn) {
 		fn("Path was " + path);
 	});
+
+...and it would be same as something like this:
+
+	var foo = function(path, fn) {
+		try {
+			// ... Handle arguments ...
+			
+			// Actual code block here
+			fn("Path was " + path);
+
+		} catch(e) {
+			// ... handle exceptions ...
+		}
+	};
 
 ### `type`
 
