@@ -20,8 +20,12 @@ Use it in the application:
 
 	var qualify = require('qualify');
 
-Example
--------
+Method `qualify.create`
+-----------------------
+
+`qualify.create` can be used to build functions and methods that validate their arguments and return values.
+
+### Example
 
 Create your functions like:
 
@@ -33,10 +37,6 @@ Create your functions like:
 	}, function(path, fn) {
 		fn("Path was " + path);
 	});
-
-
-Options for `conform`
----------------------
 
 ### `type`
 
