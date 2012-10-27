@@ -60,8 +60,13 @@ Possible values are:
 
 * `"basic"` is the default option. This is a standard function. Conform's errors are handled by throwing exceptions.
 * `"async"` is a basic async function. Last argument must be a function which can be called with an argument as an optional error message.
-* `"asyncValidate"` Validate arguments for the asynchronous function call based on this schema. [''Note:'' Not implemented yet.]
-* `"promise"` the function will return a Promise object (CommonJS/PromiseA). [''Note:'' Not implemented yet.]
+* `"promise"` the function will return a Promise object (CommonJS/PromiseA). [Not implemented yet!]
+
+### `asyncValidate`
+
+Note: This is a planned feature. It is not implemented yet!
+
+Validate arguments for the asynchronous function call based on this schema.
 
 ### `defaults`
 
